@@ -39,15 +39,21 @@ public class Dish implements Serializable {
 		/**
 		 * 肉
 		 */
-		MEAT,
+		MEAT("肉"),
 		/**
 		 * 肉
 		 */
-		FISH,
+		FISH("鱼"),
 		/**
 		 * 其他
 		 */
-		OTHER
+		OTHER("其他");
+
+		private String name;
+
+		Type(String name) {
+			this.name = name;
+		}
 	}
 }
 
