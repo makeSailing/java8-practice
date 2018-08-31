@@ -1,6 +1,12 @@
 package com.makesailing.practice.demo;
 
 import com.makesailing.practice.ApplicationTest;
+import com.makesailing.practice.domain.Dish;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.junit.Test;
@@ -93,6 +99,31 @@ public class Demo6Test extends ApplicationTest {
 	public void testGenerate(){
 		Stream.<Double>generate(Math::random).limit(5)
 			.forEach(System.out::println);
+	}
+
+	/**
+	 * 根据菜肴类型进行去重
+	 * 输出如下 :
+	 * Dish(name=猪肉, vegetarian=false, calories=800, type=MEAT)
+	 * Dish(name=大虾, vegetarian=false, calories=300, type=FISH)
+	 * Dish(name=薯条, vegetarian=true, calories=530, type=OTHER)
+	 */
+	@Test
+	public void test11() {
+		List<Dish> list = menuList.stream()
+				.distinct() // 此方法去重是计算对象的 hashCode 和 toString
+				.collect(Collectors.toList());
+
+		list.forEach(System.out::println);
+		// 上面的方法没有起到去重的作用
+
+		System.out.println("-----------------");
+
+		List<Dish> afterStudens = menuList.stream().collect(Collectors
+				.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Dish::getType))),
+						ArrayList::new));
+
+		afterStudens.forEach(System.out::println);
 	}
 }
 
